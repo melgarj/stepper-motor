@@ -39,9 +39,9 @@
 void PortF_Init(void);
 void PortA_Init(void);
 
-unsigned int detectApproach = 0;
-unsigned int detectDepart = 0;
-unsigned int open = 0;
+unsigned int presence = 0; // init at closed state
+unsigned int doorOpen = 0; // activates when door is fully opened
+
 
 int main(void){
 	unsigned int i=0;
@@ -52,28 +52,39 @@ int main(void){
 	
   while(1){
 		// turn clockwise 180 degrees
-		
-		if(detectApproach == 0xFF && open == 0){
-		detectDepart = 1; LIGHT = 0;
+		// Conditions: Door is closed, trigger is active, sensor is present/aligns with trigger
+		if((doorOpen == 0) && (presence == 0xFF) && (GPIO_PORTA_DATA_R == 0x00)){
+		LIGHT = 0;
 		for (i=0;i<1000; i++) {
       Stepper_CW(10*T1ms);   // output every 10ms
 			if(i % 50 == 0){LIGHT ^= 0x02;}
-		}LIGHT = 0x04; open = 1;detectApproach = 0; 
+		}
+		doorOpen = 1;
+		LIGHT = 0x04; 
+
 		}
 		
 		// turn counter clockwise 180 degrees
-		if(detectDepart == 0xFF && open == 1){
-		detectDepart = 0; detectApproach = 0; LIGHT = 0;
+		// Conditions: Door is open, trigger is not active, sensor is low/aligns with trigger
+		if((doorOpen == 1) && (presence == 0) && (GPIO_PORTA_DATA_R == 0x80)){
+		LIGHT = 0;
 		for (i=0;i<1000; i++) {
       Stepper_CCW(10*T1ms);   // output every 10ms
 			if(i % 50 == 0){LIGHT ^= 0x02;}
-		}LIGHT = 0x08; open = 0;
-	
 		}
+		doorOpen = 0;
+		LIGHT = 0x08;
+		}
+		
+		
+		//Main
+		
+		
   }
 }
 
-void PortF_Init(void){ volatile unsigned long delay;
+
+void PortF_Init(void){volatile unsigned long delay;
   SYSCTL_RCGC2_R |= 0x00000020; // (a) activate clock for port F
 	delay = SYSCTL_RCGC2_R;
 	GPIO_PORTF_LOCK_R = 0x4C4F434B;   // 2) unlock PortF PF0  // Unlock at beginning, broke code 
@@ -112,11 +123,15 @@ void PortA_Init(void){
 	
 }	
 
-void GPIO_PortF_Handler(void){GPIO_PORTF_ICR_R = 0x11;}
+void GPIO_PortF_Handler(void){
+	GPIO_PORTF_ICR_R = 0x11;
+}
 
 void GPIOPortA_Handler(void){
 	GPIO_PORTA_ICR_R = 0x80; // acknowledge
 	// Determine previous value of LED
+	/*
+	// When sensor is active, DATA = 0x00, else if no sensor it is 0x80
 	if(GPIO_PORTA_DATA_R == 0x80 && open == 0 && (detectDepart == 0))
 	{
 		detectApproach = 0xFF;
@@ -126,4 +141,10 @@ void GPIOPortA_Handler(void){
 	{
 		detectDepart = 0xFF;
 	}
+	*/
+	
+	if(GPIO_PORTA_DATA_R == 0x00){presence = 0xFF;}
+	else {presence = 0;}
+	
 }
+

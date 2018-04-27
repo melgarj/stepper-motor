@@ -32,7 +32,7 @@
 #include <stdint.h>
 
 // Initialize SysTick with busy wait running at bus clock.
-void SysTick_Init(void);
+void SysTick_Init(unsigned long period);
 
 // Time delay using busy wait.
 // The delay parameter is in units of the core clock. (units of 20 nsec for 50 MHz clock)

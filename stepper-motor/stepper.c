@@ -55,18 +55,18 @@ unsigned char s; // current state
 void Stepper_CW(uint32_t delay){
   s = fsm[s].Next[clockwise]; // clock wise circular
   STEPPER = fsm[s].Out; // step motor
-  SysTick_Wait(delay);
+  //SysTick_Wait(delay);
 }
 // Move 1.8 degrees counterclockwise, delay is wait after each step
 void Stepper_CCW(uint32_t delay){
   s = fsm[s].Next[counterclockwise]; // counter clock wise circular
   STEPPER = fsm[s].Out; // step motor
-  SysTick_Wait(delay); // blind-cycle wait
+  //SysTick_Wait(delay); // blind-cycle wait
 }
 // Initialize Stepper interface
-void Stepper_Init(void){
+void Stepper_Init(unsigned long period){
   SYSCTL_RCGCGPIO_R |= 0x08; // 1) activate port D
-  SysTick_Init();
+  SysTick_Init(period);
   s = 0; 
                                     // 2) no need to unlock PD3-0
   GPIO_PORTD_AMSEL_R &= ~0x0F;      // 3) disable analog functionality on PD3-0

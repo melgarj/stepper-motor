@@ -141,8 +141,7 @@ void PortA_Init(void){
 }	
 
 void GPIOPortF_Handler(void){
-			LIGHT = 0x0C;
-	if(GPIO_PORTF_RIS_R == 0x10){
+	if(GPIO_PORTF_RIS_R & 0x01){
 		if(doorOpen == 0){
 			presence = 0xFF;
 		}

@@ -263,9 +263,9 @@ Image Symbol Table
     i.SysTick_Init                           0x00000790   Section        0  systick.o(i.SysTick_Init)
     i.main                                   0x000007c0   Section        0  steppertestmain.o(i.main)
     .constdata                               0x00000834   Section       12  stepper.o(.constdata)
-    .data                                    0x20000000   Section       20  steppertestmain.o(.data)
-    .data                                    0x20000014   Section        1  stepper.o(.data)
-    .bss                                     0x20000018   Section       96  libspace.o(.bss)
+    .data                                    0x20000000   Section       16  steppertestmain.o(.data)
+    .data                                    0x20000010   Section        1  stepper.o(.data)
+    .bss                                     0x20000014   Section       96  libspace.o(.bss)
     HEAP                                     0x20000078   Section        0  startup.o(HEAP)
     STACK                                    0x20000078   Section     1024  startup.o(STACK)
     HeapMem                                  0x20000078   Data           0  startup.o(HEAP)
@@ -505,12 +505,11 @@ Image Symbol Table
     Region$$Table$$Limit                     0x00000860   Number         0  anon$$obj.o(Region$$Table)
     presence                                 0x20000000   Data           4  steppertestmain.o(.data)
     doorOpen                                 0x20000004   Data           4  steppertestmain.o(.data)
-    activate                                 0x20000008   Data           4  steppertestmain.o(.data)
-    ledCounter                               0x2000000c   Data           4  steppertestmain.o(.data)
-    rotations                                0x20000010   Data           4  steppertestmain.o(.data)
-    s                                        0x20000014   Data           1  stepper.o(.data)
-    __libspace_start                         0x20000018   Data          96  libspace.o(.bss)
-    __temporary_stack_top$libspace           0x20000078   Data           0  libspace.o(.bss)
+    ledCounter                               0x20000008   Data           4  steppertestmain.o(.data)
+    rotations                                0x2000000c   Data           4  steppertestmain.o(.data)
+    s                                        0x20000010   Data           1  stepper.o(.data)
+    __libspace_start                         0x20000014   Data          96  libspace.o(.bss)
+    __temporary_stack_top$libspace           0x20000074   Data           0  libspace.o(.bss)
 
 
 
@@ -520,7 +519,7 @@ Memory Map of the image
 
   Image Entry point : 0x0000026d
 
-  Load Region LR_1 (Base: 0x00000000, Size: 0x00000878, Max: 0xffffffff, ABSOLUTE)
+  Load Region LR_1 (Base: 0x00000000, Size: 0x00000874, Max: 0xffffffff, ABSOLUTE)
 
     Execution Region ER_RO (Base: 0x00000000, Size: 0x00000860, Max: 0xffffffff, ABSOLUTE)
 
@@ -595,19 +594,20 @@ Memory Map of the image
     0x00000840   0x00000020   Data   RO          275    Region$$Table       anon$$obj.o
 
 
-    Execution Region ER_RW (Base: 0x20000000, Size: 0x00000018, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RW (Base: 0x20000000, Size: 0x00000014, Max: 0xffffffff, ABSOLUTE)
 
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x20000000   0x00000014   Data   RW           18    .data               steppertestmain.o
-    0x20000014   0x00000001   Data   RW           68    .data               stepper.o
+    0x20000000   0x00000010   Data   RW           18    .data               steppertestmain.o
+    0x20000010   0x00000001   Data   RW           68    .data               stepper.o
 
 
-    Execution Region ER_ZI (Base: 0x20000018, Size: 0x00000460, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_ZI (Base: 0x20000014, Size: 0x00000464, Max: 0xffffffff, ABSOLUTE)
 
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x20000018   0x00000060   Zero   RW          152    .bss                c_w.l(libspace.o)
+    0x20000014   0x00000060   Zero   RW          152    .bss                c_w.l(libspace.o)
+    0x20000074   0x00000004   PAD
     0x20000078   0x00000000   Zero   RW            2    HEAP                startup.o
     0x20000078   0x00000400   Zero   RW            1    STACK               startup.o
 
@@ -619,13 +619,13 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-       692        632          0          0       1024        924   startup.o
-       228         42         12          1          0       1962   stepper.o
-       860        180          0         20          0       7381   steppertestmain.o
-        48          6          0          0          0        431   systick.o
+       692        632          0          0       1024        972   startup.o
+       228         42         12          1          0       2070   stepper.o
+       860        180          0         16          0       7488   steppertestmain.o
+        48          6          0          0          0        455   systick.o
 
     ----------------------------------------------------------------------
-      1828        860         44         24       1024      10698   Object Totals
+      1828        860         44         20       1024      10985   Object Totals
          0          0         32          0          0          0   (incl. Generated)
          0          0          0          3          0          0   (incl. Padding)
 
@@ -655,8 +655,8 @@ Image component sizes
          2          0          0          0          0         68   use_no_semi.o
 
     ----------------------------------------------------------------------
-       272         16          0          0         96        576   Library Totals
-         6          0          0          0          0          0   (incl. Padding)
+       272         16          0          0        100        576   Library Totals
+         6          0          0          0          4          0   (incl. Padding)
 
     ----------------------------------------------------------------------
 
@@ -665,7 +665,7 @@ Image component sizes
        266         16          0          0         96        576   c_w.l
 
     ----------------------------------------------------------------------
-       272         16          0          0         96        576   Library Totals
+       272         16          0          0        100        576   Library Totals
 
     ----------------------------------------------------------------------
 
@@ -674,15 +674,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-      2100        876         44         24       1120      10598   Grand Totals
-      2100        876         44         24       1120      10598   ELF Image Totals
-      2100        876         44         24          0          0   ROM Totals
+      2100        876         44         20       1124      10885   Grand Totals
+      2100        876         44         20       1124      10885   ELF Image Totals
+      2100        876         44         20          0          0   ROM Totals
 
 ==============================================================================
 
     Total RO  Size (Code + RO Data)                 2144 (   2.09kB)
     Total RW  Size (RW Data + ZI Data)              1144 (   1.12kB)
-    Total ROM Size (Code + RO Data + RW Data)       2168 (   2.12kB)
+    Total ROM Size (Code + RO Data + RW Data)       2164 (   2.11kB)
 
 ==============================================================================
 

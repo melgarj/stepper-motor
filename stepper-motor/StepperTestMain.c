@@ -8,23 +8,6 @@
 // September 12, 2013
 // Modified by Min HE
 
-/* This example accompanies the book
-   "Embedded Systems: Real Time Interfacing to Arm Cortex M Microcontrollers",
-   ISBN: 978-1463590154, Jonathan Valvano, copyright (c) 2015
-   Example 4.1, Programs 4.4, 4.5, and 4.6
-   Hardware circuit diagram Figure 4.27
-
- Copyright 2015 by Jonathan W. Valvano, valvano@mail.utexas.edu
-    You may use, edit, run or distribute this file
-    as long as the above copyright notice remains
- THIS SOFTWARE IS PROVIDED "AS IS".  NO WARRANTIES, WHETHER EXPRESS, IMPLIED
- OR STATUTORY, INCLUDING, BUT NOT LIMITED TO, IMPLIED WARRANTIES OF
- MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE APPLY TO THIS SOFTWARE.
- VALVANO SHALL NOT, IN ANY CIRCUMSTANCES, BE LIABLE FOR SPECIAL, INCIDENTAL,
- OR CONSEQUENTIAL DAMAGES, FOR ANY REASON WHATSOEVER.
- For more information about my classes, my research, and my books, see
- http://users.ece.utexas.edu/~valvano/
- */
 
 // PD3 connected to driver for stepper motor coil A
 // PD2 connected to driver for stepper motor coil A'
@@ -42,7 +25,6 @@ void EnableInterrupts(void);
 
 unsigned int presence = 0; // init at closed state
 unsigned int doorOpen = 0; // activates when door is fully opened
-unsigned int activate = 1;
 unsigned int ledCounter = 0;
 unsigned int rotations = 0;
 
@@ -70,33 +52,6 @@ int main(void){
 			LIGHT = 0x08;
 			rotations = 0;
 		}
-		/*
-		if((doorOpen == 0) && (presence == 0xFF) && (GPIO_PORTA_DATA_R == 0x00)){
-		LIGHT = 0;
-		for (i=0;i<1000; i++) {
-      Stepper_CW(10*T1ms);   // output every 10ms
-			if(i % 50 == 0){LIGHT ^= 0x02;}
-		}
-		doorOpen = 1;
-		LIGHT = 0x04; 
-		}
-		
-		// turn counter clockwise 180 degrees
-		// Conditions: Door is open, trigger is not active, sensor is low/aligns with trigger
-		if((doorOpen == 1) && (presence == 0) && (GPIO_PORTA_DATA_R == 0x80)){
-		LIGHT = 0;
-		for (i=0;i<1000; i++) {
-      Stepper_CCW(10*T1ms);   // output every 10ms
-			if(i % 50 == 0){LIGHT ^= 0x02;}
-		}
-		doorOpen = 0;
-		LIGHT = 0x08;
-		}
-		
-		
-		//Main*/
-		
-		
   }
 }
 
@@ -175,19 +130,6 @@ void SysTick_Handler(void){
 
 void GPIOPortA_Handler(void){
 	GPIO_PORTA_ICR_R = 0x80; // acknowledge
-	// Determine previous value of LED
-	/*
-	// When sensor is active, DATA = 0x00, else if no sensor it is 0x80
-	if(GPIO_PORTA_DATA_R == 0x80 && open == 0 && (detectDepart == 0))
-	{
-		detectApproach = 0xFF;
-	}
-	
- if (GPIO_PORTA_DATA_R == 0 && open == 1 && (detectApproach == 0))
-	{
-		detectDepart = 0xFF;
-	}
-	*/
   if(GPIO_PORTA_DATA_R == 0x00 && doorOpen == 0){presence = 0xFF; LIGHT = 0x02;}
   if(GPIO_PORTA_DATA_R == 0x80 && doorOpen == 1){presence = 0; LIGHT = 0x02;  }
   

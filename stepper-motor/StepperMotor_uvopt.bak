@@ -330,7 +330,7 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>273</TopLine>
+      <TopLine>275</TopLine>
       <CurrentLine>277</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\startup.s</PathWithFileName>
@@ -344,10 +344,10 @@
       <FileType>1</FileType>
       <tvExp>1</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>12</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>78</TopLine>
-      <CurrentLine>113</CurrentLine>
+      <TopLine>75</TopLine>
+      <CurrentLine>122</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\StepperTestMain.c</PathWithFileName>
       <FilenameWithoutPath>StepperTestMain.c</FilenameWithoutPath>
@@ -362,7 +362,7 @@
       <Focus>0</Focus>
       <ColumnNumber>37</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>49</TopLine>
+      <TopLine>51</TopLine>
       <CurrentLine>57</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\stepper.c</PathWithFileName>

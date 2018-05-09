@@ -33,7 +33,7 @@ int main(void){
 	unsigned int i=0;
 	PortF_Init();
 	PortA_Init();
-  Stepper_Init(160000); // 10 ms for stepper, *50 = 500 ms for LED flash
+  Stepper_Init(80000); // 10 ms for stepper, *50 = 500 ms for LED flash
 	EnableInterrupts();
 	LIGHT = 0x08;
 	
@@ -41,13 +41,13 @@ int main(void){
 		// turn clockwise 180 degrees
 		// Conditions: Door is closed, trigger is active, sensor is present/aligns with trigger
 		
-		if(rotations == 1000 && doorOpen == 0){
+		if(rotations == 3500 && doorOpen == 0){
 			doorOpen = 1;
 			LIGHT = 0x04;
 			rotations = 0;
 		}
 		
-		if(rotations == 1000 && doorOpen == 1){
+		if(rotations == 3500 && doorOpen == 1){
 			doorOpen = 0;
 			LIGHT = 0x08;
 			rotations = 0;
@@ -113,13 +113,13 @@ void GPIOPortF_Handler(void){
 void SysTick_Handler(void){
 
 	if(doorOpen == 0 && presence == 0xFF){
-		Stepper_CW(0);
+		Stepper_CCW(0);
 		ledCounter += 1;
 		rotations += 1;
 	}
 	
 	if(doorOpen == 1 && presence == 0x00){
-		Stepper_CCW(0);
+		Stepper_CW(0);
 		ledCounter += 1;
 		rotations += 1;
 	}
